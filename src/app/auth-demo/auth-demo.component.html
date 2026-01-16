@@ -1,0 +1,26 @@
+<h2>Autenticación - Versión Insegura</h2>
+
+<div *ngIf="!token">
+  <input type="text" [(ngModel)]="username" placeholder="Usuario">
+  <input type="password" [(ngModel)]="password" placeholder="Contraseña">
+  <button (click)="login()">Iniciar Sesión</button>
+  <p><small>Prueba con: admin / admin123</small></p>
+</div>
+
+<div *ngIf="token">
+  <p>✓ Sesión activa</p>
+  <button (click)="verToken()">Ver Token Almacenado</button>
+  <button (click)="logout()">Cerrar Sesión</button>
+</div>
+
+<pre *ngIf="mensaje">{{ mensaje }}</pre>
+
+<hr>
+
+<h3>Problemas de esta implementación:</h3>
+<ul>
+  <li>Contraseñas en texto plano en la BD</li>
+  <li>Token almacenado en localStorage (vulnerable a XSS)</li>
+  <li>Token sin expiración</li>
+  <li>Token sin firma digital</li>
+</ul>

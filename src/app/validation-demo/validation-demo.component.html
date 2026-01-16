@@ -1,0 +1,107 @@
+<h2>Validación de Entradas - SQL Injection + Sanitización</h2>
+
+<div class="mode-selector">
+  <p><strong>Modo actual: {{ method === 'vulnerable' ? '⚠️ VULNERABLE' : '✅ SEGURO' }}</strong></p>
+  <button type="button" (click)="toggleMethod()" class="toggle-btn">
+    Cambiar a: {{ method === 'vulnerable' ? '✅ SEGURO' : '⚠️ VULNERABLE' }}
+  </button>
+</div>
+
+<hr>
+
+<p><strong>Prueba SQL Injection y XSS aquí</strong></p>
+<p class="hint">
+  Intenta escribir: 
+  <br><code>juan' OR '1'='1</code>
+  <br><code>&lt;script&gt;alert(1)&lt;/script&gt;</code>
+  <br><code>1 OR 1=1</code>
+</p>
+
+<form (ngSubmit)="submitInsecure()">
+  <label>
+    Valor:
+    <input type="text" [(ngModel)]="username" name="username" placeholder="Ej: juan o 1 OR 1=1">
+  </label>
+
+  <br><br>
+
+  <button type="submit">Enviar</button>
+  <button type="button" (click)="saveToDatabase()" [disabled]="isLoading">
+    {{ isLoading ? 'Guardando...' : '💾 Guardar' }}
+  </button>
+</form>
+
+<hr>
+
+<p><strong>Estado de los Datos</strong></p>
+<div *ngIf="sanitizationInfo" class="sanitization-info">
+  <p><strong>Entrada Original:</strong> <code>{{ sanitizationInfo.original }}</code></p>
+  <p><strong>Resultado en BD:</strong> <code>{{ sanitizationInfo.sanitized }}</code></p>
+  
+  <div [ngSwitch]="method">
+    <p *ngSwitchCase="'secure'" class="change-indicator">
+      ✅ MODO SEGURO: Los datos fueron sanitizados antes de guardar.
+    </p>
+    <p *ngSwitchCase="'vulnerable'" class="warning-indicator">
+      ⚠️ MODO VULNERABLE: Los datos se guardaron en texto plano (sin limpiar).
+    </p>
+  </div>
+</div>
+
+<hr>
+
+<p><strong>Salida HTML (Vulnerable a inyeccion):</strong></p>
+<div *ngIf="method === 'vulnerable'" class="output-box warning-border">
+  {{ result }}
+</div>
+
+<div *ngIf="method === 'secure'" class="output-box secure-border" [innerHTML]="result">
+</div><hr>
+
+<p *ngIf="message" [ngClass]="{ 'success': message.includes('✅'), 'error': message.includes('❌'), 'warning': message.includes('⚠️') }">
+  {{ message }}
+</p>
+
+<hr *ngIf="savedResults.length > 0">
+
+<div *ngIf="savedResults.length > 0">
+  <h3>📋 Datos en BD (Modo: {{ method === 'vulnerable' ? 'VULNERABLE' : 'SEGURO' }})</h3>
+  <table class="results-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Usuario (Estado Real)</th>
+        <th>Datos</th>
+        <th>Fecha</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of savedResults">
+        <td>{{ item.id }}</td>
+        <td>{{ item.username }}</td>
+        <td class="data-cell">{{ item.data }}</td>
+        <td>{{ item.created_at | date:'short' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div *ngIf="message.includes('encontr')" class="info-box">
+  <p><strong>ℹ️ Explicación del Experimento:</strong></p>
+  
+  <div *ngIf="method === 'secure'">
+    <p>En <strong>MODO SEGURO</strong>, el sistema aplicó protección real:</p>
+    <ul>
+      <li><strong>Sanitización:</strong> Los caracteres peligrosos se convirtieron a entidades HTML.</li>
+      <li><strong>Prepared Statements:</strong> Se usaron parámetros (?) para evitar que el SQL interprete los datos como comandos.</li>
+    </ul>
+  </div>
+
+  <div *ngIf="method === 'vulnerable'">
+    <p>En <strong>MODO VULNERABLE</strong>, la seguridad fue omitida:</p>
+    <ul>
+      <li><strong>Texto Plano:</strong> El contenido entró a la base de datos sin ningún filtro de limpieza.</li>
+      <li><strong>Concatenación:</strong> El texto se unió directamente a la consulta SQL, permitiendo inyecciones exitosas.</li>
+    </ul>
+  </div>
+</div>

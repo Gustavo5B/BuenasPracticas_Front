@@ -1,0 +1,50 @@
+.busqueda {
+  margin: 20px 0;
+}
+
+.busqueda label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.busqueda input {
+  padding: 5px;
+  margin-right: 10px;
+  width: 150px;
+}
+
+.busqueda button {
+  padding: 5px 15px;
+  background: #dc3545;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.busqueda small {
+  display: block;
+  margin-top: 5px;
+  color: #666;
+}
+
+.resultado {
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+  padding: 10px;
+  margin: 20px 0;
+}
+
+.resultado pre {
+  margin: 0;
+  white-space: pre-wrap;
+  font-size: 13px;
+}
+
+.problemas {
+  margin-top: 30px;
+}
+
+.problemas ul {
+  line-height: 1.8;
+}

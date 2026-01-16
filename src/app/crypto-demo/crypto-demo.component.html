@@ -1,0 +1,23 @@
+<h2>Cifrado y Hashing - Demostración</h2>
+
+<div class="input-section">
+  <label>Ingresa una contraseña:</label>
+  <input type="password" [(ngModel)]="password" placeholder="Contraseña">
+</div>
+
+<div class="buttons">
+  <button class="vulnerable" (click)="guardarTextoPlano()">Guardar en Texto Plano (VULNERABLE)</button>
+  <button class="vulnerable" (click)="guardarMD5()">Guardar con MD5 (VULNERABLE)</button>
+  <button class="seguro" (click)="guardarBcrypt()">Guardar con bcrypt (SEGURO)</button>
+</div>
+
+<pre *ngIf="resultado">{{ resultado }}</pre>
+
+<hr>
+
+<h3>Problemas:</h3>
+<ul>
+  <li><strong>Texto plano:</strong> Cualquiera con acceso a la BD ve las contraseñas</li>
+  <li><strong>MD5:</strong> Ataques de diccionario y rainbow tables pueden romperlo fácilmente</li>
+  <li><strong>bcrypt:</strong> Diseñado para ser lento, incluye salt automático</li>
+</ul>

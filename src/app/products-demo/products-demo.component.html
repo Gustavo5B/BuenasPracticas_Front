@@ -1,0 +1,21 @@
+<h2>Demo de Productos</h2>
+
+<form (ngSubmit)="agregarProducto()">
+  <input [(ngModel)]="nuevoProducto.nombre" name="nombre" placeholder="Nombre" required>
+  <input [(ngModel)]="nuevoProducto.descripcion" name="descripcion" placeholder="Descripción">
+  <input type="number" [(ngModel)]="nuevoProducto.precio" name="precio" placeholder="Precio" required>
+  <input type="number" [(ngModel)]="nuevoProducto.stock" name="stock" placeholder="Stock">
+  <button type="submit">Agregar Producto</button>
+</form>
+
+<hr>
+
+<h3>Lista de Productos</h3>
+<ul>
+  <li *ngFor="let p of productos">
+    <!-- Vulnerable: cualquier HTML o <script> se ejecutará -->
+    <strong>{{p.nombre}}</strong> 
+    <span> {{p.descripcion || 'Sin descripción' }}</span> 
+    ${{ p.precio }} - Stock: {{ p.stock || 0 }}
+  </li>
+</ul>

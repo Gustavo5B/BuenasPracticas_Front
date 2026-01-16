@@ -1,0 +1,24 @@
+<h2>Manejo de Errores - Versión Insegura</h2>
+
+<div class="busqueda">
+  <label>Buscar Producto por ID:</label>
+  <input type="number" [(ngModel)]="productoId" placeholder="ID del producto">
+  <button (click)="buscarProducto()">Buscar</button>
+  <small>Prueba con: 1, 2, 99999</small>
+</div>
+
+<div class="resultado" *ngIf="errorMostrado">
+  <pre>{{ errorMostrado }}</pre>
+</div>
+
+<hr>
+
+<div class="problemas">
+  <h3>Problemas de esta implementación:</h3>
+  <ul>
+    <li>Muestra el nombre de la base de datos</li>
+    <li>Expone el query SQL completo</li>
+    <li>Revela la estructura de tablas</li>
+    <li>Da pistas para posibles ataques</li>
+  </ul>
+</div>

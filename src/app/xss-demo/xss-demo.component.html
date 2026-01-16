@@ -1,0 +1,43 @@
+<h2>XSS (Cross-Site Scripting) - Demostración</h2>
+
+<div class="input-section">
+  <label>Escribe un comentario:</label>
+  <textarea [(ngModel)]="comentario" placeholder="Escribe aquí..." rows="3"></textarea>
+  <p class="ejemplo">Prueba con: &lt;img src=x onerror="alert('XSS')"&gt;</p>
+</div>
+
+<div class="buttons">
+  <button class="vulnerable" (click)="agregarVulnerable()">Agregar (VULNERABLE)</button>
+  <button class="seguro" (click)="agregarSeguro()">Agregar (SEGURO)</button>
+  <button (click)="limpiar()">Limpiar Todo</button>
+</div>
+
+<hr>
+
+<div class="comentarios-section">
+  <h3>❌ Versión VULNERABLE (con innerHTML):</h3>
+  <!-- 
+  <div class="comentario vulnerable" *ngFor="let c of comentariosVulnerables">
+    <div [innerHTML]="c"></div>
+  </div> -->
+  <p *ngIf="comentariosVulnerables.length === 0" class="vacio">Sin comentarios</p>
+  <div id="vulnerable-output"></div>
+</div>
+
+<div class="comentarios-section">
+  <h3>✅ Versión SEGURA (sanitizado de Angular):</h3>
+  <div class="comentario seguro" *ngFor="let c of comentariosSegros">
+    {{ c }}
+  </div>
+  <p *ngIf="comentariosSegros.length === 0" class="vacio">Sin comentarios</p>
+</div>
+
+<hr>
+
+<h3>Problemas de XSS:</h3>
+<ul>
+  <li>Permite ejecutar JavaScript malicioso en el navegador del usuario</li>
+  <li>Puede robar cookies y tokens de sesión</li>
+  <li>Puede redirigir a sitios maliciosos</li>
+  <li>innerHTML sin sanitizar es extremadamente peligroso</li>
+</ul>

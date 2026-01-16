@@ -1,0 +1,62 @@
+/* You can add global styles to this file, and also import other style files */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f6f8;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.header {
+  background-color: #0d1b2a;
+  color: white;
+  padding: 16px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.header p {
+  margin: 4px 0 0;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.content {
+  display: flex;
+  flex: 1;
+}
+
+.menu {
+  width: 260px;
+  background-color: #1b263b;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.menu button {
+  padding: 10px;
+  border: none;
+  background-color: #415a77;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.menu button:hover {
+  background-color: #778da9;
+}
+
+.main {
+  flex: 1;
+  padding: 24px;
+  background-color: white;
+}
