@@ -13,6 +13,7 @@ import { HttpClient } from '@angular/common/http';
 export class CryptoDemo {
   password = '';
   resultado = '';
+  
 
   constructor(private http: HttpClient) {}
 

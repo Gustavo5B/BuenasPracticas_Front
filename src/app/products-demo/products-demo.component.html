@@ -19,3 +19,11 @@
     ${{ p.precio }} - Stock: {{ p.stock || 0 }}
   </li>
 </ul>
+
+
+<li *ngFor="let p of productos">
+    <!-- VULNERABLE: innerHTML permite ejecutar scripts maliciosos -->
+    <strong [innerHTML]="p.nombre"></strong> 
+    <span [innerHTML]="p.descripcion || 'Sin descripción'"></span> 
+    ${{ p.precio }} - Stock: {{ p.stock || 0 }}
+  </li>

@@ -1,24 +1,48 @@
-<h2>Autenticación - Versión Insegura</h2>
+<div class="modo-selector">
+  <button (click)="cambiarModo(false)" [disabled]="!esModoSeguro">Ver Versión Insegura</button>
+  <button (click)="cambiarModo(true)" [disabled]="esModoSeguro">Ver Versión Segura</button>
+</div>
+
+<h2 [style.color]="esModoSeguro ? 'green' : 'red'">
+  Autenticación - Versión {{ esModoSeguro ? 'Segura' : 'Insegura' }}
+</h2>
 
 <div *ngIf="!token">
   <input type="text" [(ngModel)]="username" placeholder="Usuario">
   <input type="password" [(ngModel)]="password" placeholder="Contraseña">
   <button (click)="login()">Iniciar Sesión</button>
-  <p><small>Prueba con: admin / admin123</small></p>
+  
+  <p *ngIf="!esModoSeguro"><small>Prueba con: admin / admin123</small></p>
+  <p *ngIf="esModoSeguro"><small>Prueba con: angel / hola</small></p>
 </div>
 
 <div *ngIf="token">
-  <p>✓ Sesión activa</p>
-  <button (click)="verToken()">Ver Token Almacenado</button>
+  <p>✓ Sesión activa como: <strong>{{ username }}</strong></p>
+  
+  <button *ngIf="!esModoSeguro" (click)="verToken()">Ver Token en LocalStorage</button>
+  
+  <span *ngIf="esModoSeguro" class="badge-secure">Token blindado en HttpOnly Cookie</span>
+  
   <button (click)="logout()">Cerrar Sesión</button>
 </div>
 
-<pre *ngIf="mensaje">{{ mensaje }}</pre>
+<div class="monitor-box" *ngIf="mensaje">
+  <label>Estado del Sistema:</label>
+  <pre [class.text-danger]="!esModoSeguro" [class.text-success]="esModoSeguro">{{ mensaje }}</pre>
+</div>
 
 <hr>
 
+<h3>Características de esta implementación:</h3>
+
+<ul *ngIf="esModoSeguro">
+    <li>Contraseñas hasheadas con SHA2</li>
+    <li>Token en Cookie HttpOnly (Invisible para ataques XSS)</li>
+    <li>CORS restringido y SameSite Lax para prevenir CSRF</li>
+</ul>
+
 <h3>Problemas de esta implementación:</h3>
-<ul>
+<ul *ngIf="!esModoSeguro">
   <li>Contraseñas en texto plano en la BD</li>
   <li>Token almacenado en localStorage (vulnerable a XSS)</li>
   <li>Token sin expiración</li>
